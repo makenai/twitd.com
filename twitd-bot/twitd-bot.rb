@@ -9,7 +9,9 @@ end
 
 if __FILE__ == $0
   
-  twitd = Twitd.new('http://re.twitd.com/api')
+  # Production = 'http://re.twitd.com/api'
+  api_endpoint = ARGV[0] || 'http://localhost:8080/api'
+  twitd = Twitd.new( api_endpoint )
   
   tweets = Twitter.search( 'RT', :max_pages => 1 )
   tweets.each do |tweet|
