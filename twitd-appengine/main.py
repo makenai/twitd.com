@@ -1,40 +1,38 @@
-#!/usr/bin/env python
-#
-# Copyright 2007 Google Inc.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-#
-
-
-
-
-import wsgiref.handlers
-
-
+from google.appengine.api import users
 from google.appengine.ext import webapp
+from google.appengine.ext.webapp import template
+from google.appengine.ext.webapp.util import run_wsgi_app
+from calendar import monthcalendar
+from models import *
 
+class Twitd(webapp.RequestHandler):
+	PER_PAGE = 25
+	def get(self, page=1):
+		tweet_query = Tweet.all().order('-created_date').order('-retweet_count')
+		# Offsets don't work here? http://localhost:8080/401
+		tweets = tweet_query.fetch(self.PER_PAGE, (int(page) - 1) * self.PER_PAGE)
+		next_page_items = tweet_query.fetch(1, (int(page)) * self.PER_PAGE)
+		template_data = {
+			'tweets':    tweets,
+			'page':      int(page),
+			'next_page': len(next_page_items) > 0 and int(page) + 1 or None,
+			'prev_page': int(page) > 1 and int(page) - 1 or None,
+		}
+		self.response.out.write(template.render('templates/main.html', template_data))
+		
+class Search(webapp.RequestHandler):
+	def get(self):
+		self.response.out.write("Search")
 
-class MainHandler(webapp.RequestHandler):
-
-  def get(self):
-    self.response.out.write('Hello world!')
-
+application = webapp.WSGIApplication([
+										('/', Twitd),
+									  	('/(\d+)', Twitd),
+										('/search', Search)
+									 ],
+                                     debug=True)
 
 def main():
-  application = webapp.WSGIApplication([('/', MainHandler)],
-                                       debug=True)
-  wsgiref.handlers.CGIHandler().run(application)
+	run_wsgi_app(application)
 
-
-if __name__ == '__main__':
-  main()
+if __name__ == "__main__":
+	main()
