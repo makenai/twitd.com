@@ -9,9 +9,9 @@ end
 
 if __FILE__ == $0
   
-  twitd = Twitd.new('http://localhost:8080/api')
+  twitd = Twitd.new('http://re.twitd.com/api')
   
-  tweets = YAML.load_file('samples/tweets.yaml')
+  tweets = Twitter.search( 'RT', :max_pages => 1 )
   tweets.each do |tweet|
 
     # TODO : RT might not always have to be at the beginning of the tweet
