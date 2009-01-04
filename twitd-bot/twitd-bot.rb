@@ -9,7 +9,7 @@ end
 
 if __FILE__ == $0
   
-  # Production = 'http://re.twitd.com/api'
+  # Production = http://re.twitd.com/api
   api_endpoint = ARGV[0] || 'http://localhost:8080/api'
   twitd = Twitd.new( api_endpoint )
   
@@ -17,7 +17,7 @@ if __FILE__ == $0
   tweets.each do |tweet|
 
     # TODO : RT might not always have to be at the beginning of the tweet
-    next unless matches = tweet['text'].match(/^rt\s+@(\w+)\s+(.*)/i)
+    next unless matches = tweet['text'].match(/^rt\s+@(\w+):?\s+(.*)/i)
     user, text = matches[1], matches[2]
     next unless Twitter.user_exists?( user )
         

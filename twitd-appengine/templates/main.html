@@ -1,12 +1,24 @@
 <html>
 <head>
 	<title>re&middot;Twit&apos;d</title>
+	<script type="text/javascript" src="/js/jquery-1.2.6.min.js"></script>
+	<script type="text/javascript">
+		var Twitd = {
+			toggle_retweets: function( id ) {
+				$('#tweet-' + id).toggleClass('retweets-shown');
+				return false;
+			}
+		};
+	</script>	
 	<style type="text/css">
+		div.thread {
+			border-bottom: 1px solid #c0c0c0;
+			margin-bottom: 5px;
+		}
 		div.tweet {
 			margin-left: 65px;
-			border-bottom: 1px solid black;
 		}
-		div.retweets {
+		div.retweet-rank {
 			width: 50px;
 			border: 1px solid black;
 			text-align: center;
@@ -15,36 +27,70 @@
 			float: left;
 			font-size: 10px;
 		}
-		div.retweets div {
+		div.retweet-rank div {
 			font-size: 25px;
+		}
+		h1 { margin: 0; padding: 0; }
+		#timespan {
+			margin-bottom: 5px;
+			border-bottom: 1px solid #c0c0c0;
+		}
+		.retweets { display: none; }
+		div.retweets-shown .retweets { display: block; }
+		div.retweets-shown .show-retweets { display: none; }
+		div.buttons {
+			margin: 3px 0;
 		}
 	</style>
 </head>
 <body>
 <h1>re&middot;Twit&apos;d</h1>
-{% for tweet in tweets %}
-<div class="retweets">
-	<div>{{ tweet.retweet_count }}</div> retweets
+<div id="timespan">
+Retweets from the last..
+{% for timespan_option in timespans %}
+	{% ifequal timespan_option timespan %}
+		<b>{{timespan_option}}</b>
+	{% else %}
+		<a href="/{{timespan_option}}">{{timespan_option}}</a>
+	{% endifequal %}
+{% endfor %}
 </div>
-<div class="tweet">
-	<img src="{{ tweet.profile_image_url }}" width="48" height="48" />
-	<b>{{ tweet.from_user }}</b> on <i>{{ tweet.created_at }}</i>
-    <blockquote>{{ tweet.text }}</blockquote>
-	<ul>
-	{% for retweet in tweet.retweet_set %}
-		<li>{{ retweet.from_user }}: {{ retweet.text }}</li>
-	{% endfor %}
-	</ul>
+{% for tweet in tweets %}
+<div class="thread" id="tweet-{{ tweet.id }}">
+	<div class="retweet-rank">
+		<div>{{ tweet.retweet_count }}</div> retweets
+	</div>
+	<div class="tweet">
+		<img src="{{ tweet.profile_image_url }}" width="48" height="48" />
+	    <span>{{ tweet.text }}</span>
+		<div><b>{{ tweet.from_user }}</b> on <i>{{ tweet.created_at }}</i></div>
+		<div class="retweets">
+			<a href="#" onClick="return Twitd.toggle_retweets({{tweet.id}});">Hide retweets</a>			
+			<ul>
+			{% for retweet in tweet.retweet_set %}
+				<li>{{ retweet.from_user }}: {{ retweet.text }} on {{ retweet.created_at }}</li>
+			{% endfor %}
+			</ul>
+		</div>
+		<div class="show-retweets">
+			<a href="#" onClick="return Twitd.toggle_retweets({{tweet.id}});">Show retweets</a>
+		</div>
+		<div class="buttons">
+		0 comments | 
+		<a href="http://twitter.com/home?in_reply_to_status_id={{tweet.id}}&status=%40{{tweet.from_user}}%20"  target="_blank">Reply</a> |
+		<a href="http://twitter.com/home?status={{ tweet.as_retweet }}">Retweet</a>
+		</div>
+	</div>
 </div>
 {% endfor %}
 
 <div>
 	{% if prev_page %}
-		<a href="/{{ prev_page }}">&lt;&lt; Newer Posts</a>
+		<a href="/{{timespan}}/{{ prev_page }}">&lt;&lt; Newer Posts</a>
 	{% endif %}	
 	{{ page }}
 	{% if next_page %}
-		<a href="/{{ next_page }}">Older Posts &gt;&gt;</a>
+		<a href="/{{timespan}}/{{ next_page }}">Older Posts &gt;&gt;</a>
 	{% endif %}
 </div>
 

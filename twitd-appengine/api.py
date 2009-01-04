@@ -38,6 +38,7 @@ class AddToThread(webapp.RequestHandler):
 			)
 			retweet.put()
 			tweet.retweet_count = tweet.retweet_set.count()
+			tweet.retweet_grade  = tweet.calc_grade()
 			tweet.put()
 			self.response.out.write( simplejson.dumps( retweet.to_dict() ) )
 		

@@ -1,5 +1,6 @@
 from google.appengine.ext import db
 from google.appengine.ext import search
+import urllib
 
 # { "text"=>"RT @abhayshete A gem from Kumar Gandharva http://tinyurl.com/7q7l4f", 
 #   "to_user_id"=>nil, 
@@ -10,9 +11,7 @@ from google.appengine.ext import search
 #   "profile_image_url"=>"http://s3.amazonaws.com/twitter_production/profile_images/65877355/shaniwar-wada-pune_normal.jpg", 
 #   "created_at"=>"Thu, 01 Jan 2009 18:35:05 +0000"}
 
-# http://groups.google.com/group/google-appengine/browse_thread/thread/f64eacbd31629668/8dac5499bd58a6b7?lnk=gst&q=searchablemodel
-
-class Tweet(search.SearchableModel):
+class BaseTweet(search.SearchableModel):
 	
 	id                = db.IntegerProperty(required=True)
 	from_user         = db.StringProperty(required=True)
@@ -20,7 +19,6 @@ class Tweet(search.SearchableModel):
 	text              = db.StringProperty(required=True,multiline=True)
 	profile_image_url = db.StringProperty(required=True)
 	created_at        = db.DateTimeProperty(required=True)
-	retweet_count     = db.IntegerProperty(default=0)
 	created_date      = db.DateProperty()
 
 	DATE_FMT = '%a, %d %b %Y %H:%M:%S +0000'
@@ -34,12 +32,42 @@ class Tweet(search.SearchableModel):
 			'profile_image_url': self.profile_image_url,
 			'created_at': self.created_at.strftime( self.DATE_FMT )
 		}
+
+class Tweet(BaseTweet):
+	
+	retweet_count     = db.IntegerProperty(default=0)
+	retweet_grade     = db.IntegerProperty(default=0)
+	
+	def calc_grade(self):
+		if self.retweet_count   >= 25:
+			return 5
+		if self.retweet_count   >= 10:
+			return 4
+		elif self.retweet_count >=  5:
+			return 3
+		elif self.retweet_count >=  2:
+			return 2
+		return 1
+
+	def as_retweet(self):
+		retweet = "RT @%s: %s" % ( self.from_user, self.text )
+		return urllib.quote( retweet.encode('utf-8') )
 				
-class ReTweet(Tweet):
+class ReTweet(BaseTweet):
+	
 	retweet_of	= db.ReferenceProperty(Tweet)
 	
 	def to_dict(self):
-		dict = Tweet.to_dict(self)
+		dict = BaseTweet.to_dict(self)
 		dict['parent_id'] = self.retweet_of.id
 		return dict
+		
+class Comment(BaseTweet):
+
+	comment_for	= db.ReferenceProperty(Tweet)
+
+	def to_dict(self):
+		dict = BaseTweet.to_dict(self)
+		dict['parent_id'] = self.comment_for.id
+		return dict		
 		
