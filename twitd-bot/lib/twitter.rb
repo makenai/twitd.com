@@ -31,7 +31,7 @@ class Twitter
 
   def self.user_exists?( user )
     # Check if the specific user exists on twitter
-    tries = 0
+    retries = 0
     begin
       RestClient.get("http://#{USERNAME}:#{PASSWORD}@twitter.com/users/show/#{user}.json")
       return true

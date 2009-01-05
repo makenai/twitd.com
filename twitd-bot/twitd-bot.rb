@@ -16,8 +16,6 @@ if __FILE__ == $0
   
   Pidify.start
   
-
-  
   # Production = http://re.twitd.com/api
   api_endpoint = ARGV[0] || 'http://localhost:8080/api'
   twitd = Twitd.new( api_endpoint )
