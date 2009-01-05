@@ -11,7 +11,7 @@ import urllib
 #   "profile_image_url"=>"http://s3.amazonaws.com/twitter_production/profile_images/65877355/shaniwar-wada-pune_normal.jpg", 
 #   "created_at"=>"Thu, 01 Jan 2009 18:35:05 +0000"}
 
-class BaseTweet(search.SearchableModel):
+class BaseTweet(db.Model):
 	
 	id                = db.IntegerProperty(required=True)
 	from_user         = db.StringProperty(required=True)
@@ -35,19 +35,15 @@ class BaseTweet(search.SearchableModel):
 
 class Tweet(BaseTweet):
 	
-	retweet_count     = db.IntegerProperty(default=0)
-	retweet_grade     = db.IntegerProperty(default=0)
+	retweet_count = db.IntegerProperty(default=0)
+	over2         = db.BooleanProperty(default=False)
+	over5		  = db.BooleanProperty(default=False)
+	over10		  = db.BooleanProperty(default=False)
 	
-	def calc_grade(self):
-		if self.retweet_count   >= 25:
-			return 5
-		if self.retweet_count   >= 10:
-			return 4
-		elif self.retweet_count >=  5:
-			return 3
-		elif self.retweet_count >=  2:
-			return 2
-		return 1
+	def classify(self):
+		self.over2  = self.retweet_count > 2
+		self.over5  = self.retweet_count > 5
+		self.over10 = self.retweet_count > 10
 
 	def as_retweet(self):
 		retweet = "RT @%s: %s" % ( self.from_user, self.text )

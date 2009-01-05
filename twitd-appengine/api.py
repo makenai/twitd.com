@@ -38,7 +38,7 @@ class AddToThread(webapp.RequestHandler):
 			)
 			retweet.put()
 			tweet.retweet_count = tweet.retweet_set.count()
-			tweet.retweet_grade  = tweet.calc_grade()
+			tweet.classify()
 			tweet.put()
 			self.response.out.write( simplejson.dumps( retweet.to_dict() ) )
 		
@@ -50,7 +50,7 @@ class ThreadList(webapp.RequestHandler):
 			tweet_query.filter( 'from_user_lc =', user.lower() )
 		tweets = [ tweet.to_dict() for tweet in tweet_query.fetch(100) ]
 		self.response.out.write( simplejson.dumps(tweets) )
-		
+				
 application = webapp.WSGIApplication([('/api/create_thread', CreateThread),
 									  ('/api/add_to_thread', AddToThread),
 									  ('/api/threads', ThreadList)],

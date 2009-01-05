@@ -10,7 +10,7 @@ class TweetPager:
 	CACHE_TIME = 120 # 2 minutes 
 	
 	TIMESPANS = {
-		'hour':		 timedelta(hours=1),
+		'hours':	 timedelta(hours=4),
 		'day':		 timedelta(days=1),
 		'week':		 timedelta(weeks=1),
 		'fortnight': timedelta(weeks=2),
@@ -31,8 +31,13 @@ class TweetPager:
 	  	else:	
 			logging.debug("Cache miss: %s", requested_key)
 			cutoff_date = datetime.now() - self.TIMESPANS[ timespan ]
-			tweet_query = Tweet.all().filter( 'created_date >', cutoff_date )
-			tweets = tweet_query.fetch(500)
+			tweet_query = Tweet.all()
+			if self.TIMESPANS[ timespan ] > self.TIMESPANS['day']:
+				tweet_query.filter( 'over5 =', True ) # Only over5 tweets for anything more than a day
+			else:
+				tweet_query.filter( 'over2 =', True ) # More than 2 to be listed
+			tweet_query.filter( 'created_at >', cutoff_date )
+			tweets = tweet_query.fetch(800)
 			tweets.sort( TweetPager.rank_sort )
 			tweet_pages = {}
 			for page in range( 1, self.MAX_PAGES + 1 ):				

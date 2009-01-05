@@ -15,7 +15,7 @@ class Twitd(webapp.RequestHandler):
 			'page':      int(page),
 			'next_page': len( pager.get( timespan, int(page) + 1 ) ) > 0 and int(page) + 1 or None,
 			'prev_page': int(page) > 1 and int(page) - 1 or None,
-			'timespans': [ 'hour', 'day', 'week', 'fortnight' ],
+			'timespans': [ 'hours', 'day', 'week', 'fortnight' ],
 		}
 		self.response.out.write(template.render('templates/main.html', template_data))
 		
@@ -25,8 +25,8 @@ class Search(webapp.RequestHandler):
 
 application = webapp.WSGIApplication([
 										('/', Twitd),
-										('/(hour|day|week|fortnight)', Twitd),										
-									  	('/(hour|day|week|fortnight)/(\d+)', Twitd),
+										('/(hours|day|week|fortnight)', Twitd),										
+									  	('/(hours|day|week|fortnight)/(\d+)', Twitd),
 										('/search', Search)
 									 ],
                                      debug=True)

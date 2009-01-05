@@ -10,7 +10,7 @@ indexes:
 # automatically uploaded to the admin console when you next deploy
 # your application using appcfg.py.
 
-# Unused in query history -- copied from input.
+# Used 11 times in query history.
 - kind: Tweet
   properties:
   - name: created_at
@@ -31,14 +31,33 @@ indexes:
   - name: created_at
     direction: desc
 
-# Used 334 times in query history.
+# Used 426 times in query history.
 - kind: Tweet
   properties:
   - name: from_user_lc
   - name: created_at
     direction: desc
 
-# Used 10 times in query history.
+# Used 4 times in query history.
+- kind: Tweet
+  properties:
+  - name: over2
+  - name: created_at
+
+# Used 7 times in query history.
+- kind: Tweet
+  properties:
+  - name: over2
+  - name: retweet_count
+    direction: desc
+
+# Used 3 times in query history.
+- kind: Tweet
+  properties:
+  - name: over5
+  - name: created_at
+
+# Used 18 times in query history.
 - kind: Tweet
   properties:
   - name: retweet_count
