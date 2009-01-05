@@ -1,0 +1,7 @@
+Twit'd:
+- Block spammy people (who retweet the same thing twice, and who have a lot of retweets in some alotted time period)
+- Update twitd-bot to pick up where it left off instead of doing a complete search each time @done
+- Archive mode
+- Fix retweet identification algorithm @done
+- Do something about retweets of retweets
+- Fix 503 user error @done

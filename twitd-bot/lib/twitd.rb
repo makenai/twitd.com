@@ -1,5 +1,5 @@
 require 'rubygems'
-require 'levenshtein'
+require 'amatch'
 require 'rest_client'
 require 'cgi'
 require 'json'
@@ -45,13 +45,18 @@ class Twitd
   
   private
   
+  def normalize_string( str )
+    str.downcase.gsub(/[^a-z0-9 ]/i,'').gsub(/\s+/,' ')
+  end
+  
   def find_closest_tweet( text, tweets )
+    text_n = normalize_string( text )
+    m = Amatch::Levenshtein.new( text_n )
     tweets.each do |t|
-      # TODO : Replace Levenshtein with something that compared subsets of words
-      t[:distance] = Levenshtein.distance( t['text'], text )
+      t[:distance]  = m.search( normalize_string( t['text'] ) )
     end
-    original = tweets.sort { |a,b| a[:distance] <=> b[:distance] }.first
-    return original && original[:distance] > 50 ? nil : original
+    original  = tweets.sort { |a,b| a[:distance] <=> b[:distance] }.first   
+    return original && original[:distance] > 20 ? nil : original
   end
   
 end

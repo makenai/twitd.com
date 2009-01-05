@@ -31,14 +31,14 @@ indexes:
   - name: created_at
     direction: desc
 
-# Used 426 times in query history.
+# Used 1188 times in query history.
 - kind: Tweet
   properties:
   - name: from_user_lc
   - name: created_at
     direction: desc
 
-# Used 4 times in query history.
+# Used 6 times in query history.
 - kind: Tweet
   properties:
   - name: over2
@@ -51,7 +51,7 @@ indexes:
   - name: retweet_count
     direction: desc
 
-# Used 3 times in query history.
+# Used 5 times in query history.
 - kind: Tweet
   properties:
   - name: over5

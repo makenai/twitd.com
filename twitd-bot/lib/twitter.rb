@@ -10,7 +10,7 @@ class Twitter
 
   def self.search( term, options={} )
     # Search search.twitter.com for a specific search string
-    query_params = "?q=#{CGI.escape(term)}&rpp=100"
+    query_params = "?q=#{CGI.escape(term)}&rpp=100&lang=en"
     if options[:since_id]
       query_params += "&since_id=#{options[:since_id]}"
     end
@@ -31,12 +31,18 @@ class Twitter
 
   def self.user_exists?( user )
     # Check if the specific user exists on twitter
-    # TODO: Retry (sometimes 503)
-    RestClient.get("http://#{USERNAME}:#{PASSWORD}@twitter.com/users/show/#{user}.json")
-    return true
-  rescue RestClient::ResourceNotFound
-    return false
-  end
+    tries = 0
+    begin
+      RestClient.get("http://#{USERNAME}:#{PASSWORD}@twitter.com/users/show/#{user}.json")
+      return true
+    rescue RestClient::ResourceNotFound
+      return false
+    rescue RestClient::RequestFailed
+      sleep 1
+      retries += 1
+      retry if retries < 5
+    end
+  end    
   
 end
 
