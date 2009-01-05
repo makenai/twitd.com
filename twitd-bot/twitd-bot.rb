@@ -54,7 +54,7 @@ if __FILE__ == $0
     
   end
   
-  if max_id > since_id
+  if max_id > since_id.to_i
     File.open('since_id.txt','w') do |f|
       f.print max_id
     end
