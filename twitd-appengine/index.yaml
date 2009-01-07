@@ -16,7 +16,7 @@ indexes:
   - name: created_at
     direction: desc
 
-# Used 174 times in query history.
+# Unused in query history -- copied from input.
 - kind: Tweet
   properties:
   - name: created_date
@@ -31,14 +31,14 @@ indexes:
   - name: created_at
     direction: desc
 
-# Used 334 times in query history.
+# Unused in query history -- copied from input.
 - kind: Tweet
   properties:
   - name: from_user_lc
   - name: created_at
     direction: desc
 
-# Used 10 times in query history.
+# Unused in query history -- copied from input.
 - kind: Tweet
   properties:
   - name: retweet_count
