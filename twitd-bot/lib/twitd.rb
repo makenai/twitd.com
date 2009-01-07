@@ -13,6 +13,7 @@ class Twitd
   
   def get_threads_for_user( user )
     # Get the last 100 threads associated with a particular user
+    # TODO: Add timestamp
     json = RestClient.get( "#{@base_url}/threads?user=#{CGI.escape(user)}" )
     return JSON.parse( json )
   end

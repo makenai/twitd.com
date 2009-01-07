@@ -9,15 +9,19 @@ from models import *
 class CreateThread(webapp.RequestHandler):
 	def post(self):
 		created_at = datetime.strptime( self.request.get('created_at'), Tweet.DATE_FMT )
+		user = TwitterUser.create_or_update(
+		    id				  = self.request.get('from_user_id'),
+			screen_name       = self.request.get('from_user'),
+			profile_image_url = self.request.get('profile_image_url')
+		)
+		user.put()
 		tweet = Tweet(
-			key_name          = "twitter_%s" % self.request.get('id'),
+			key_name          = "t%s" % self.request.get('id'),
 			id                = int( self.request.get('id') ),
-			from_user         = self.request.get('from_user'),
-			from_user_lc      = self.request.get('from_user').lower(),
 			text              = self.request.get('text'),
-			profile_image_url = self.request.get('profile_image_url'),
 			created_at        = created_at,
-			created_date      = created_at.date()
+			created_date      = created_at.date(),
+			user              = user
 		)
 		tweet.put()
 		self.response.out.write( simplejson.dumps( tweet.to_dict() ) )
@@ -26,15 +30,19 @@ class AddToThread(webapp.RequestHandler):
 	def post(self):
 		tweet = Tweet.get( self.request.get('thread_id') )
 		if tweet:
+			user = TwitterUser.create_or_update(
+			    id				  = self.request.get('from_user_id'),
+				screen_name       = self.request.get('from_user'),
+				profile_image_url = self.request.get('profile_image_url')
+			)
+			user.put()
 			retweet = ReTweet(
-				key_name          = "twitter_%s" % self.request.get('id'),
+				key_name          = "t%s" % self.request.get('id'),
 				id                = int( self.request.get('id') ),
-				from_user         = self.request.get('from_user'),
-				from_user_lc      = self.request.get('from_user').lower(),
 				text              = self.request.get('text'),
-				profile_image_url = self.request.get('profile_image_url'),
 				created_at        = datetime.strptime( self.request.get('created_at'), Tweet.DATE_FMT ),
-				retweet_of		  = tweet
+				retweet_of		  = tweet,
+				user              = user
 			)
 			retweet.put()
 			tweet.retweet_count = tweet.retweet_set.count()
@@ -44,11 +52,11 @@ class AddToThread(webapp.RequestHandler):
 		
 class ThreadList(webapp.RequestHandler):
 	def get(self):
-		tweet_query = Tweet.all().order('-created_at')
-		user = self.request.get('user')
+		user = TwitterUser.get_by_key_name( self.request.get('user').lower() )
 		if user:
-			tweet_query.filter( 'from_user_lc =', user.lower() )
-		tweets = [ tweet.to_dict() for tweet in tweet_query.fetch(100) ]
+			tweets = [ tweet.to_dict() for tweet in Tweet.all().filter('user =', user).fetch(100) ]
+		else:
+			tweets = []
 		self.response.out.write( simplejson.dumps(tweets) )
 				
 application = webapp.WSGIApplication([('/api/create_thread', CreateThread),

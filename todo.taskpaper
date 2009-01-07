@@ -5,3 +5,9 @@ Twit'd:
 - Fix retweet identification algorithm @done
 - Do something about retweets of retweets
 - Fix 503 user error @done
+- Twitter image caching
+- Add a 'begugingly' to google app engine button
+- Add a timestamp to get_threads_for_user
+- Comments - top pages only?
+- Take cache clearing offline
+- Comments for google users?

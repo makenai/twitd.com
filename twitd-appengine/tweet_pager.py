@@ -7,7 +7,7 @@ class TweetPager:
 	
 	PER_PAGE   = 15
 	MAX_PAGES  = 10
-	CACHE_TIME = 120 # 2 minutes 
+	CACHE_TIME = 5 * 60 # 5 minutes 
 	
 	TIMESPANS = {
 		'hours':	 timedelta(hours=4),
