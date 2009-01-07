@@ -38,7 +38,7 @@ indexes:
   - name: created_at
     direction: desc
 
-# Used 2 times in query history.
+# Used 4 times in query history.
 - kind: Tweet
   properties:
   - name: over2
@@ -51,7 +51,7 @@ indexes:
   - name: retweet_count
     direction: desc
 
-# Used once in query history.
+# Unused in query history -- copied from input.
 - kind: Tweet
   properties:
   - name: over5

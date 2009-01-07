@@ -52,7 +52,8 @@ class AddToThread(webapp.RequestHandler):
 		
 class ThreadList(webapp.RequestHandler):
 	def get(self):
-		user = TwitterUser.get_by_key_name( self.request.get('user').lower() )
+		key_name = "u%s" % self.request.get('user').lower()
+		user = TwitterUser.get_by_key_name( key_name )
 		if user:
 			tweets = [ tweet.to_dict() for tweet in Tweet.all().filter('user =', user).fetch(100) ]
 		else:

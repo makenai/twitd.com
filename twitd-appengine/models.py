@@ -37,7 +37,7 @@ class TwitterUser(db.Model):
 	
 	@classmethod
 	def create_or_update( self, **args ):
-		key_name = args['screen_name'].lower()
+		key_name = "u%s" % args['screen_name'].lower()
 		user     = TwitterUser.get_by_key_name( key_name )
 		if user:
 			user.screen_name       = args['screen_name']
