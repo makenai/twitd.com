@@ -59,10 +59,25 @@ class ThreadList(webapp.RequestHandler):
 		else:
 			tweets = []
 		self.response.out.write( simplejson.dumps(tweets) )
+		
+class Truncate(webapp.RequestHandler):
+	def get(self):
+		items = None
+		model = self.request.get('model')
+		if model == 'Tweet':
+			for instance in Tweet.all():
+			  instance.delete()
+		elif model == 'ReTweet':
+			for instance in ReTweet.all():
+			  instance.delete()
+		elif model == 'TwitterUser':
+			for instance in TwitterUser.all():
+			  instance.delete()		
 				
 application = webapp.WSGIApplication([('/api/create_thread', CreateThread),
 									  ('/api/add_to_thread', AddToThread),
-									  ('/api/threads', ThreadList)],
+									  ('/api/threads', ThreadList),
+								      ('/api/truncate', Truncate)],
                                      debug=True)
 
 def main():

@@ -38,7 +38,7 @@ indexes:
   - name: created_at
     direction: desc
 
-# Used 4 times in query history.
+# Used 5 times in query history.
 - kind: Tweet
   properties:
   - name: over2

@@ -12,3 +12,4 @@ Twit'd:
 - Take cache clearing offline
 - Comments for google users?
 - Stick the clear cache part on ensure
+- Block messages that contain over a certain percentage of multibyte characters
