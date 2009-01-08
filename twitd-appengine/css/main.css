@@ -1,0 +1,189 @@
+* {margin:0; padding:0; color:#333; font-family:helvetica;}
+img {border:none;}
+a {color:#4C9FFF;}
+body {background:#cce29d url("/img/body-bg.gif") repeat-x left top;}
+#header {
+	height:150px;
+	background:#333 url("/img/header-bg.gif") repeat-x left bottom;
+	margin:0 0 15px 0;
+}
+#sub-head {
+	background:url("/img/header-img.png") no-repeat left bottom;
+	width:600px;
+	height:150px;
+	margin:0 auto;
+}
+#logo {
+	padding:30px 0 0;
+}
+#logo a {
+	background:url("/img/twitd-logo.png") no-repeat top center;
+	overflow:hidden;
+	display:block;
+	height:56px;
+	width:247px;
+	text-indent:-9999px;
+	margin:0 0 0 175px;
+}
+#logo a:hover {
+	background-position:center -56px;
+}
+#container {
+	width:600px;
+	margin:0 auto;
+	background:#fff;
+	-moz-border-radius:8px;
+	-webkit-border-radius:8px;
+}
+div.thread {
+	font-size:.9em;
+	background:#fff;
+	margin:0 0 10px;
+	position:relative;
+	width:640px;
+	left:-50px;
+	border:1px solid #ccc;
+	-moz-border-radius:8px;
+	-webkit-border-radius:8px;
+}
+.tweet {
+	margin-left: 50px;
+}
+.show {
+	background:none;
+	text-indent:0;
+	text-align:center;
+	font-size:11px;
+	width:50px;
+	height:30px;
+	position:absolute;
+	top:10px;
+	left:0px;
+	text-decoration:none;
+}
+.show span {
+	font-size: 25px;
+}
+h1 { margin: 0; padding: 0; }
+.avatar-link {
+	float:left;
+	margin:0 8px 0 0;
+}
+#timespan {
+	padding:10px 0;
+	text-align:center;
+}
+#timespan a {
+	text-shadow: black 1px 1px 1px;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+	background:#c2d957;
+	padding:3px 5px;
+	text-decoration:none;
+	color:#fff;
+}
+#timespan a:hover {
+	background:#aedfe4;
+}
+#timespan strong {
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+	background:#D3D9AD;
+	padding:3px 5px;
+	text-decoration:none;
+	font-weight:normal;
+	color:#fff;
+}
+.retweets { display: none; }
+div.retweets-shown .retweets { display: block; }
+div.retweets-shown .show-retweets { display: none; }
+.buttons {
+	clear:both;
+	text-align:right;
+	margin:5px;
+}
+.tweet-meta {
+	height:48px;
+	width:581px;
+	margin:5px 10px 0 0;
+}
+.toggle-list {
+	background:url("/img/expand.gif") no-repeat left top;
+	text-indent:-9999px;
+	overflow:hidden;
+	width:20px;
+	height:20px;
+	position:absolute;
+	left:0;
+	bottom:0;
+}
+.toggle-list:hover {
+	background-position:right top;
+}
+.rt-list {
+	list-style:none;
+}
+.rt-list li {
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+	margin:5px 5px 0 0;
+	background:#eee;
+}
+.rt-list li p {
+	padding:5px 10px;
+}
+#pagination {
+	text-align:center;
+	position:relative;
+}
+#pagination .page {
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+	background:#c2d957;
+	padding:3px 5px;
+	text-decoration:none;
+	color:#fff;
+}
+#pagination .page:hover {
+	background:#aedfe4;
+}
+#pagination .page.newer {
+	position:absolute;
+	left:10px;
+	bottom:10px;
+}
+#pagination span {
+	font-size:2.4em;
+}
+#pagination .page.older {
+	position:absolute;
+	right:10px;
+	bottom:10px;
+}
+#footer {
+	background:#fff;
+	margin:10px 0 0 0;
+}
+#footer-content {
+	position:relative;
+	margin:0 auto;
+	padding:10px 0 0 0;
+	width:600px;
+	height:140px;
+}
+#footer-content #techcrunch {
+	background:url("/img/techcrunch.gif") no-repeat left top;
+	text-indent:-9999px;
+	display:block;
+	width:259px;
+	height:50px;
+}
+#footer-content #techcrunch:hover {
+	background-position:left -56px;
+}
+#creators {
+	text-align:right;
+	position:absolute;
+	right:0;
+	top:30px;
+}
