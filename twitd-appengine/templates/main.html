@@ -36,15 +36,13 @@
   </div>
   {% for tweet in tweets %}
   <div class="thread" id="tweet-{{ tweet.id }}">
-  	<p class="retweet-rank">
-  		<a href="#" class="toggle-list show"><span>{{ tweet.retweet_count }}</span> retweets</a>
-  	</p>
   	<div class="tweet">
   		<div class="tweet-meta">
   		  <a href="http://www.twitter.com/{{ tweet.from_user }}" class="avatar-link"><img src="{{ tweet.profile_image_url }}" width="48" height="48" /></a>
   		  <p>{{ tweet.text }}</p>
     		<p><a href="http://www.twitter.com/{{ tweet.from_user }}">{{ tweet.from_user }}</a> on <em>{{ tweet.created_at }}</em></p>
   		</div>
+  		<a href="#" class="counter-toggle show"><span>{{ tweet.retweet_count }}</span> retweets</a>
 			<a href="#" class="toggle-list">Show/Hide</a>
   		<ul class="rt-list">
   		{% for retweet in tweet.retweet_set %}
@@ -59,16 +57,27 @@
   	</div>
   </div>
   {% endfor %}
-  <div>
+  <div id="pagination">
   	{% if prev_page %}
-  		<a href="/{{timespan}}/{{ prev_page }}">&lt;&lt; Newer Posts</a>
+  		<a class="page newer" href="/{{timespan}}/{{ prev_page }}">&lt;&lt; Newer Posts</a>
   	{% endif %}	
-  	{{ page }}
+  	<span>{{ page }}</span>
   	{% if next_page %}
-  		<a href="/{{timespan}}/{{ next_page }}">Older Posts &gt;&gt;</a>
+  		<a class="page older" href="/{{timespan}}/{{ next_page }}">Older Posts &gt;&gt;</a>
   	{% endif %}
   </div>
 </div>
-<img src="/img/appengine-noborder-120x30.gif" alt="Powered by Google App Engine" />
+<div id="footer">
+  <div id="footer-content">
+    <a id="techcrunch" href="http://www.techcrunch.com/2008/12/29/its-not-how-many-followers-you-have-that-counts-its-how-many-times-you-get-retweeted/">Inspired by TechCrunch Article</a>
+    <img src="/img/appengine-noborder-120x30.gif" alt="Powered by Google App Engine" /><br />
+    <img src="http://members.lycos.nl/jupp/img/ruby.png" />
+    <p id="creators">
+      Created by:<br />
+      <a href="https://twitter.com/makenai">Pawel Szymczykowski</a><br />
+      <a href="https://twitter.com/dylanbathurst">Dylan Bathurst</a>
+    </p>
+  </div>
+</div>
 </body>
 </html>
