@@ -10,7 +10,7 @@ indexes:
 # automatically uploaded to the admin console when you next deploy
 # your application using appcfg.py.
 
-# Used 747 times in query history.
+# Used 811 times in query history.
 - kind: ReTweet
   properties:
   - name: user
