@@ -1,6 +1,6 @@
 from google.appengine.ext import db
 from google.appengine.ext import search
-from datetime import datetime
+from datetime import datetime, timedelta
 import urllib
 
 # { "profile_link_color":"0000FF",
@@ -34,6 +34,13 @@ class TwitterUser(db.Model):
 	screen_name       = db.StringProperty(required=True)
 	profile_image_url = db.StringProperty(required=True)
 	updated_at        = db.DateTimeProperty(required=True)
+	
+	def recent_retweet_count( self, from_date ):
+		cutoff = from_date - timedelta(hours=5)
+		return ReTweet.all().filter('user =', self).filter('created_at >', cutoff).count(5)
+		
+	def has_retweeted( self, tweet ):
+		return ReTweet.all().filter('user =', self).filter('retweet_of =', tweet).count(1) > 0
 	
 	@classmethod
 	def create_or_update( self, **args ):

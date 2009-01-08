@@ -20,10 +20,14 @@ if __FILE__ == $0
   api_endpoint = ARGV[0] || 'http://localhost:8080/api'
   twitd = Twitd.new( api_endpoint )
   
-  since_id = File.open('since_id.txt').read rescue nil  
+  since_id = File.open('since_id.txt').read rescue nil
+  
+  if since_id
+    puts "Starting at #{since_id}"
+  end
   
   tweets = since_id ? Twitter.search( 'RT', :since_id => since_id ) : 
-                      Twitter.search( 'RT', :max_pages => 1 )
+                      Twitter.search( 'RT', :max_pages => 20 )
   max_id = 0
   tweets.each do |tweet|
 
@@ -46,7 +50,11 @@ if __FILE__ == $0
         thread = twitd.create_thread( original )
         puts "Created #{thread['text']}"
         rt = twitd.add_to_thread( thread['key'], tweet )
-        puts "  |- #{rt['text']}\n\n"
+        if rt['is_error']
+          puts "*** #{rt['text']} ***\n\n"          
+        else
+          puts "  |- #{rt['text']}\n\n"
+        end
       else
         puts "*** Could not find original for #{user}: #{text}\n\n"
       end

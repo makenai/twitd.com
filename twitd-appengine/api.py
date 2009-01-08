@@ -36,12 +36,24 @@ class AddToThread(webapp.RequestHandler):
 				profile_image_url = self.request.get('profile_image_url')
 			)
 			user.put()
+			created_at = datetime.strptime( self.request.get('created_at'), Tweet.DATE_FMT )
+
+			# Check if this person has had more than 5 retweets in the past 5 hours
+			if user.recent_retweet_count( created_at ) >= 5:
+				self.response.out.write( "{ \"is_error\": \"1\", \"text\": \"Too many retweets for %s\" }" % user.screen_name )
+				return
+				
+			# Check if this person is being spammy
+			if user.has_retweeted( tweet ):
+				self.response.out.write( "{ \"is_error\": \"1\", \"text\": \"%s has already retweeted this\" }" % user.screen_name )
+				return
+								
 			retweet = ReTweet(
 				key_name          = "t%s" % self.request.get('id'),
 				id                = int( self.request.get('id') ),
 				text              = self.request.get('text'),
-				created_at        = datetime.strptime( self.request.get('created_at'), Tweet.DATE_FMT ),
-				retweet_of		  = tweet,
+				created_at        = created_at,
+				retweet_of        = tweet,
 				user              = user
 			)
 			retweet.put()
