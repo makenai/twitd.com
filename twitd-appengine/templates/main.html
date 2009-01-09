@@ -1,7 +1,13 @@
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 	<title>re&middot;Twit&apos;d</title>
+	<link rel="stylesheet" href="/css/main.css" type="text/css" media="screen" title="no title" charset="utf-8">
 	<script type="text/javascript" src="/js/jquery-1.2.6.min.js"></script>
+	<script type="text/javascript" src='/js/behavior.js'></script>
 	<script type="text/javascript">
 		var Twitd = {
 			toggle_retweets: function( id ) {
@@ -10,91 +16,68 @@
 			}
 		};
 	</script>	
-	<style type="text/css">
-		div.thread {
-			border-bottom: 1px solid #c0c0c0;
-			margin-bottom: 5px;
-		}
-		div.tweet {
-			margin-left: 65px;
-		}
-		div.retweet-rank {
-			width: 50px;
-			border: 1px solid black;
-			text-align: center;
-			padding: 5px 0;
-			background-color: yellow;
-			float: left;
-			font-size: 10px;
-		}
-		div.retweet-rank div {
-			font-size: 25px;
-		}
-		h1 { margin: 0; padding: 0; }
-		#timespan {
-			margin-bottom: 5px;
-			border-bottom: 1px solid #c0c0c0;
-		}
-		.retweets { display: none; }
-		div.retweets-shown .retweets { display: block; }
-		div.retweets-shown .show-retweets { display: none; }
-		div.buttons {
-			margin: 3px 0;
-		}
-	</style>
 </head>
 <body>
-<h1>re&middot;Twit&apos;d</h1>
-<div id="timespan">
-Retweets from the last..
-{% for timespan_option in timespans %}
-	{% ifequal timespan_option timespan %}
-		<b>{{timespan_option}}</b>
-	{% else %}
-		<a href="/{{timespan_option}}">{{timespan_option}}</a>
-	{% endifequal %}
-{% endfor %}
+<div id="header">
+  <div id="sub-head">
+    <h1 id="logo"><a href="/">re&middot;Twit&apos;d</a></h1>
+  </div>
 </div>
-{% for tweet in tweets %}
-<div class="thread" id="tweet-{{ tweet.id }}">
-	<div class="retweet-rank">
-		<div>{{ tweet.retweet_count }}</div> retweets
-	</div>
-	<div class="tweet">
-		<img src="{{ tweet.profile_image_url }}" width="48" height="48" />
-	    <span>{{ tweet.text }}</span>
-		<div><b>{{ tweet.from_user }}</b> on <i>{{ tweet.created_at }}</i></div>
-		<div class="retweets">
-			<a href="#" onClick="return Twitd.toggle_retweets({{tweet.id}});">Hide retweets</a>			
-			<ul>
-			{% for retweet in tweet.retweet_set %}
-				<li>{{ retweet.from_user }}: {{ retweet.text }} on {{ retweet.created_at }}</li>
-			{% endfor %}
-			</ul>
-		</div>
-		<div class="show-retweets">
-			<a href="#" onClick="return Twitd.toggle_retweets({{tweet.id}});">Show retweets</a>
-		</div>
-		<div class="buttons">
-		0 comments | 
-		<a href="http://twitter.com/home?in_reply_to_status_id={{tweet.id}}&status=%40{{tweet.from_user}}%20"  target="_blank">Reply</a> |
-		<a href="http://twitter.com/home?status={{ tweet.as_retweet }}">Retweet</a>
-		</div>
-	</div>
+<div id="container">
+  <div id="timespan">
+  Retweets from the last..
+  {% for timespan_option in timespans %}
+  	{% ifequal timespan_option timespan %}
+  		<strong>{{timespan_option}}</strong>
+  	{% else %}
+  		<a href="/{{timespan_option}}">{{timespan_option}}</a>
+  	{% endifequal %}
+  {% endfor %}
+  </div>
+  {% for tweet in tweets %}
+  <div class="thread" id="tweet-{{ tweet.id }}">
+  	<div class="tweet">
+  		<div class="tweet-meta">
+  		  <a href="http://www.twitter.com/{{ tweet.from_user }}" class="avatar-link"><img src="{{ tweet.profile_image_url }}" width="48" height="48" /></a>
+  		  <p>{{ tweet.text }}</p>
+    		<p><a href="http://www.twitter.com/{{ tweet.from_user }}">{{ tweet.from_user }}</a> on <em>{{ tweet.created_at }}</em></p>
+  		</div>
+  		<a href="#" class="counter-toggle show"><span>{{ tweet.retweet_count }}</span> retweets</a>
+			<a href="#" class="toggle-list">Show/Hide</a>
+  		<ul class="rt-list">
+  		{% for retweet in tweet.retweet_set %}
+  			<li><p><a href="http://www.twitter.com/{{ retweet.from_user }}">{{ retweet.from_user }}</a>: {{ retweet.text }} on {{ retweet.created_at }}</p></li>
+  		{% endfor %}
+  		</ul>
+  		<p class="buttons">
+  		<!-- 0 comments | -->
+  		<a href="http://twitter.com/home?in_reply_to_status_id={{tweet.id}}&status=%40{{tweet.from_user}}%20"  target="_blank">Reply</a> |
+  		<a href="http://twitter.com/home?status={{ tweet.as_retweet }}">Retweet</a>
+  		</p>
+  	</div>
+  </div>
+  {% endfor %}
+  <div id="pagination">
+  	{% if prev_page %}
+  		<a class="page newer" href="/{{timespan}}/{{ prev_page }}">&lt;&lt; Newer Posts</a>
+  	{% endif %}	
+  	<span>{{ page }}</span>
+  	{% if next_page %}
+  		<a class="page older" href="/{{timespan}}/{{ next_page }}">Older Posts &gt;&gt;</a>
+  	{% endif %}
+  </div>
 </div>
-{% endfor %}
-
-<div>
-	{% if prev_page %}
-		<a href="/{{timespan}}/{{ prev_page }}">&lt;&lt; Newer Posts</a>
-	{% endif %}	
-	{{ page }}
-	{% if next_page %}
-		<a href="/{{timespan}}/{{ next_page }}">Older Posts &gt;&gt;</a>
-	{% endif %}
+<div id="footer">
+  <div id="footer-content">
+    <a id="techcrunch" href="http://www.techcrunch.com/2008/12/29/its-not-how-many-followers-you-have-that-counts-its-how-many-times-you-get-retweeted/">Inspired by TechCrunch Article</a>
+    <img src="/img/appengine-noborder-120x30.gif" alt="Powered by Google App Engine" /><br />
+    <img src="http://members.lycos.nl/jupp/img/ruby.png" />
+    <p id="creators">
+      Created by:<br />
+      <a href="https://twitter.com/makenai">Pawel Szymczykowski</a><br />
+      <a href="https://twitter.com/dylanbathurst">Dylan Bathurst</a>
+    </p>
+  </div>
 </div>
-
-<img src="/img/appengine-noborder-120x30.gif" alt="Powered by Google App Engine" />
-
 </body>
 </html>

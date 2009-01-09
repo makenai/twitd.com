@@ -18,31 +18,45 @@ class Twitter
   end
   
   def self.do_search( query_params, max_pages=nil )
-    json = RestClient.get("http://search.twitter.com/search.json#{query_params}")
-    tweets = JSON.parse( json )
-    return tweets['results'] if max_pages && tweets['page'] >= max_pages
-    if tweets['next_page']
-      more_tweets = do_search( tweets['next_page'], max_pages ) 
-      return tweets['results'] + more_tweets
-    else
-      return tweets['results']
-    end        
+    retry_times( 5 ) do
+      puts "*** Requesting #{query_params}"
+      json = RestClient.get("http://search.twitter.com/search.json#{query_params}")
+      tweets = JSON.parse( json )
+      return tweets['results'] if max_pages && tweets['page'] >= max_pages
+      if tweets['next_page']
+        more_tweets = do_search( tweets['next_page'], max_pages ) 
+        return tweets['results'] + more_tweets
+      else
+        return tweets['results']
+      end        
+    end
   end
 
   def self.user_exists?( user )
     # Check if the specific user exists on twitter
-    retries = 0
-    begin
-      RestClient.get("http://#{USERNAME}:#{PASSWORD}@twitter.com/users/show/#{user}.json")
-      return true
-    rescue RestClient::ResourceNotFound
-      return false
-    rescue RestClient::RequestFailed
-      sleep 1
-      retries += 1
-      retry if retries < 5
+    retry_times( 5 ) do
+      begin
+        RestClient.get("http://#{USERNAME}:#{PASSWORD}@twitter.com/users/show/#{user}.json")
+        return true
+      rescue RestClient::ResourceNotFound
+        return false
+      end
     end
   end    
+  
+  private
+  
+  def self.retry_times( max_retries )
+    retries = 0
+    begin
+      yield
+    rescue Exception
+      retries += 1      
+      STDERR.puts "[ #{$!} : Retrying #{retries} of #{max_retries} times. ]"
+      sleep 5
+      retry if retries < max_retries
+    end
+  end
   
 end
 
