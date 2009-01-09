@@ -7,7 +7,7 @@ class TweetPager:
 	
 	PER_PAGE   = 15
 	MAX_PAGES  = 10
-	CACHE_TIME = 5 * 60 # 5 minutes 
+	# CACHE_TIME = 5 * 60 # 5 minutes 
 	
 	TIMESPANS = {
 		'hours':	 timedelta(hours=4),
@@ -20,32 +20,32 @@ class TweetPager:
 		return int( b.retweet_count - a.retweet_count )
 	rank_sort = staticmethod(rank_sort)
 	
+	def recache( self, timespan ):
+		cutoff_date = datetime.now() - self.TIMESPANS[ timespan ]
+		tweet_query = Tweet.all()
+		if self.TIMESPANS[ timespan ] > self.TIMESPANS['day']:
+			tweet_query.filter( 'over5 =', True ) # Only over5 tweets for anything more than a day
+		else:
+			tweet_query.filter( 'over2 =', True ) # More than 2 to be listed
+		tweet_query.filter( 'created_at >', cutoff_date )
+		tweets = tweet_query.fetch(800)
+		tweets.sort( TweetPager.rank_sort )
+		tweet_pages = {}
+		for page in range( 1, self.MAX_PAGES + 1 ):				
+			start = ( int(page) - 1 ) * self.PER_PAGE
+			end   = start + self.PER_PAGE
+			key   = "%s_%d" % ( timespan, page )
+			tweet_pages[ key ] = tweets[start:end]
+		errors = memcache.set_multi( tweet_pages )
+		if errors:
+			logging.error("Not able to set: %s", str(errors) )
+		
 	def get( self, timespan, page ):
 		if int(page) > self.MAX_PAGES: # Let's not go out of bounds..
 			return []
 		requested_key = "%s_%d" % ( timespan, int(page) )
 		tweets = memcache.get( requested_key )
 		if tweets is not None:
-			logging.debug("Cache hit: %s", requested_key)
 			return tweets
-  	else:
-			logging.debug("Cache miss: %s", requested_key)
-			cutoff_date = datetime.now() - self.TIMESPANS[ timespan ]
-			tweet_query = Tweet.all()
-			if self.TIMESPANS[ timespan ] > self.TIMESPANS['day']:
-				tweet_query.filter( 'over5 =', True ) # Only over5 tweets for anything more than a day
-			else:
-				tweet_query.filter( 'over2 =', True ) # More than 2 to be listed
-			tweet_query.filter( 'created_at >', cutoff_date )
-			tweets = tweet_query.fetch(800)
-			tweets.sort( TweetPager.rank_sort )
-			tweet_pages = {}
-			for page in range( 1, self.MAX_PAGES + 1 ):				
-				start = ( int(page) - 1 ) * self.PER_PAGE
-				end   = start + self.PER_PAGE
-				key   = "%s_%d" % ( timespan, page )
-				tweet_pages[ key ] = tweets[start:end]
-			errors = memcache.set_multi( tweet_pages, self.CACHE_TIME )
-			if errors:
-				logging.error("Not able to set: %s", str(errors) )
-			return tweet_pages[ requested_key ]
+		else:
+			return []

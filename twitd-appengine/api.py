@@ -3,6 +3,7 @@ from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
 from google.appengine.ext.webapp.util import run_wsgi_app
 from django.utils import simplejson
+from tweet_pager import TweetPager
 from datetime import datetime
 from models import *
 	
@@ -84,12 +85,21 @@ class Truncate(webapp.RequestHandler):
 			  instance.delete()
 		elif model == 'TwitterUser':
 			for instance in TwitterUser.all():
-			  instance.delete()		
-				
+			  instance.delete()
+			
+class ReCache(webapp.RequestHandler):
+	def get(self):
+		pager = TweetPager()
+		pager.recache('hours')
+		pager.recache('day')
+		pager.recache('week')
+		pager.recache('fortnight')
+							
 application = webapp.WSGIApplication([('/api/create_thread', CreateThread),
 									  ('/api/add_to_thread', AddToThread),
 									  ('/api/threads', ThreadList),
-								      ('/api/truncate', Truncate)],
+								      ('/api/truncate', Truncate),
+								      ('/api/recache', ReCache)],
                                      debug=True)
 
 def main():

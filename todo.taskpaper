@@ -7,7 +7,7 @@ Twit'd:
 - Twitter image caching
 - Add a timestamp to get_threads_for_user
 - Comments - top pages only?
-- Take cache clearing offline
+- Take cache clearing offline @done
 - Comments for google users?
-- Stick the clear cache part on ensure
+- Stick the clear cache part on ensure @done
 - Block messages that contain over a certain percentage of multibyte characters

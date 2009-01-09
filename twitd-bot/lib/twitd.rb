@@ -10,6 +10,10 @@ class Twitd
   def initialize( base_url )
     @base_url = base_url
   end
+
+  def recache()
+    RestClient.get( "#{@base_url}/recache" )
+  end
   
   def get_threads_for_user( user )
     # Get the last 100 threads associated with a particular user
