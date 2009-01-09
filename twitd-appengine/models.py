@@ -99,8 +99,8 @@ class Tweet(BaseTweet):
 	created_date  = db.DateProperty(required=True)
 	retweet_count = db.IntegerProperty(default=0)
 	over2         = db.BooleanProperty(default=False)
-	over5		  = db.BooleanProperty(default=False)
-	over10		  = db.BooleanProperty(default=False)
+	over5         = db.BooleanProperty(default=False)
+	over10		    = db.BooleanProperty(default=False)
 	
 	def classify(self):
 		self.over2  = self.retweet_count > 2
@@ -108,7 +108,7 @@ class Tweet(BaseTweet):
 		self.over10 = self.retweet_count > 10
 
 	def as_retweet(self):
-		retweet = "RT @%s: %s" % ( self.from_user, self.text )
+		retweet = "RT @%s: %s" % ( self.from_user(), self.text )
 		return urllib.quote( retweet.encode('utf-8') )
 				
 class ReTweet(BaseTweet):

@@ -28,7 +28,7 @@ class TweetPager:
 		if tweets is not None:
 			logging.debug("Cache hit: %s", requested_key)
 			return tweets
-	  	else:	
+  	else:
 			logging.debug("Cache miss: %s", requested_key)
 			cutoff_date = datetime.now() - self.TIMESPANS[ timespan ]
 			tweet_query = Tweet.all()

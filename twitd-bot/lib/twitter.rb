@@ -50,7 +50,7 @@ class Twitter
     retries = 0
     begin
       yield
-    rescue RestClient::RequestFailed
+    rescue Exception
       retries += 1      
       STDERR.puts "[ #{$!} : Retrying #{retries} of #{max_retries} times. ]"
       sleep 5
