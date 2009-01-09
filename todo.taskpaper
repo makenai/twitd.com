@@ -4,8 +4,10 @@ Twit'd:
 - Archive mode
 - Fix retweet identification algorithm @done
 - Fix 503 user error @done
-- Twitter image caching
-- Add a timestamp to get_threads_for_user
+- Update twitter images
+- Autolink URLs
+- Un-HTML-escape retweet links
+- Pull in retweets via AJAX
 - Comments - top pages only?
 - Take cache clearing offline @done
 - Comments for google users?

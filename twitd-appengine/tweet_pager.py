@@ -10,7 +10,7 @@ class TweetPager:
 	# CACHE_TIME = 5 * 60 # 5 minutes 
 	
 	TIMESPANS = {
-		'hours':	 timedelta(hours=4),
+		'hours':	 timedelta(hours=3),
 		'day':		 timedelta(days=1),
 		'week':		 timedelta(weeks=1),
 		'fortnight': timedelta(weeks=2),
