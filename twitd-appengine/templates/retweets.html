@@ -1,0 +1,3 @@
+{% for retweet in tweet.retweet_set %}
+	<li><p><a href="http://www.twitter.com/{{ retweet.from_user }}">{{ retweet.from_user }}</a>: {{ retweet.text }} on <a href="http://twitter.com/{{ retweet.from_user }}/status/{{ retweet.id }}">{{ retweet.created_at }}</a></p></li>
+{% endfor %}
