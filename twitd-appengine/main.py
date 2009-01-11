@@ -16,7 +16,7 @@ class Twitd(webapp.RequestHandler):
 			'next_page': len( pager.get( timespan, int(page) + 1 ) ) > 0 and int(page) + 1 or None,
 			'prev_page': int(page) > 1 and int(page) - 1 or None,
 			'timespans': [ 'hours', 'day', 'week', 'fortnight' ],
-			'rss_link': "http://re.twitd.com/rss/%s.xml" % timespan
+			'rss_link': "/rss/%s.xml" % timespan
 		}
 		self.response.out.write(template.render('templates/main.html', template_data))
 		
