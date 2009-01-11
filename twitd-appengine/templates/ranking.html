@@ -1,0 +1,10 @@
+{% extends "main.html" %}
+
+{% block content %}
+<h1>Most Retweeted Users</h1>
+<ul>
+	{% for user in users %}
+	<li><img src="{{ user.profile_image_url }}" width="48" height="48" /> <a href="/user/{{ user.screen_name }}">{{ user.screen_name }}</a> has {{ user.retweet_count }} retweets.</li>
+	{% endfor %}
+</ul>
+{% endblock %}
