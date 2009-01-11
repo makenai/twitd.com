@@ -17,6 +17,7 @@ class TweetRss(webapp.RequestHandler):
 		template_data = {
 			'title': "re.twit'd in the last %s" % timespan,
 			'link': "http://re.twitd.com/%s" % timespan,
+			'rss_link': "http://re.twitd.com/rss/%s.xml" % timespan,
 			'description': "i'm in ur twitter, trackin' ur retweets!",
 			'items': items
 		}

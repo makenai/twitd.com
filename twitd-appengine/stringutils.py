@@ -30,7 +30,7 @@ def unescape_html( str ):
 		replace('&quot;','"').replace('&#39;',"'")
 		
 def truncate(s, width):
-	if len(s) < width:
+	if len(s) <= width:
 		return s
 	if s[width].isspace():
 		return s[0:width]
