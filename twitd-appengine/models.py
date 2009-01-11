@@ -1,7 +1,7 @@
 from google.appengine.ext import db
 from google.appengine.ext import search
 from datetime import datetime, timedelta
-from xml.sax import saxutils
+import stringutils
 import urllib
 
 # { "profile_link_color":"0000FF",
@@ -110,7 +110,7 @@ class Tweet(BaseTweet):
 
 	def as_retweet(self):
 		retweet = "RT @%s: %s" % ( self.from_user(), self.text )
-		return urllib.quote( saxutils.unescape( retweet.encode('utf-8') ) )
+		return urllib.quote( stringutils.unescape_html( retweet.encode('utf-8') ) )
 				
 class ReTweet(BaseTweet):
 	

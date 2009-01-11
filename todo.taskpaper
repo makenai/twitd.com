@@ -5,11 +5,17 @@ Twit'd:
 - Fix retweet identification algorithm @done
 - Fix 503 user error @done
 - Update twitter images
-- Autolink URLs
-- Un-HTML-escape retweet links
+- Autolink URLs @done
+- Un-HTML-escape retweet links @done
+- Create /retweets method for AJAX @done
 - Pull in retweets via AJAX
 - Comments - top pages only?
 - Take cache clearing offline @done
 - Comments for google users?
 - Stick the clear cache part on ensure @done
 - Block messages that contain over a certain percentage of multibyte characters
+- Link dates to original tweet @done
+- Add a tinyurl like functionality - http://twitd.com/jdi45
+- Add a page for users & their most retweeted
+- Most retweeted users table (a la digg)
+- 404 page?

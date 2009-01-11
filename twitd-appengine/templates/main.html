@@ -39,16 +39,12 @@
   	<div class="tweet">
   		<div class="tweet-meta">
   		  <a href="http://www.twitter.com/{{ tweet.from_user }}" class="avatar-link"><img src="{{ tweet.profile_image_url }}" width="48" height="48" /></a>
-  		  <p>{{ tweet.text }}</p>
-    		<p><a href="http://www.twitter.com/{{ tweet.from_user }}">{{ tweet.from_user }}</a> on <em>{{ tweet.created_at }}</em></p>
+  		  <p>{{ tweet.text|autolink|autolink_twitter }}</p>
+    		<p><a href="http://www.twitter.com/{{ tweet.from_user }}">{{ tweet.from_user }}</a> on <em><a href="http://twitter.com/{{ tweet.from_user }}/status/{{ tweet.id }}">{{ tweet.created_at }}</a></em></p>
   		</div>
   		<a href="#" class="counter-toggle show"><span>{{ tweet.retweet_count }}</span> retweets</a>
 			<a href="#" class="toggle-list">Show/Hide</a>
-  		<ul class="rt-list">
-  		{% for retweet in tweet.retweet_set %}
-  			<li><p><a href="http://www.twitter.com/{{ retweet.from_user }}">{{ retweet.from_user }}</a>: {{ retweet.text }} on {{ retweet.created_at }}</p></li>
-  		{% endfor %}
-  		</ul>
+  		<ul class="rt-list"><li class="default"></li></ul>
   		<p class="buttons">
   		<!-- 0 comments | -->
   		<a href="http://twitter.com/home?in_reply_to_status_id={{tweet.id}}&status=%40{{tweet.from_user}}%20"  target="_blank">Reply</a> |

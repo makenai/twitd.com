@@ -62,6 +62,10 @@ class AddToThread(webapp.RequestHandler):
 			tweet.classify()
 			tweet.put()
 			self.response.out.write( simplejson.dumps( retweet.to_dict() ) )
+			
+class AddComment(webapp.RequestHandler):
+	def post(self):
+		''
 		
 class ThreadList(webapp.RequestHandler):
 	def get(self):

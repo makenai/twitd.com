@@ -7,7 +7,7 @@ from tweet_pager import TweetPager
 from models import *
 
 class Twitd(webapp.RequestHandler):
-	def get(self, timespan='day', page=1):
+	def get(self, timespan='hours', page=1):
 		pager = TweetPager()
 		template_data = {
 			'tweets':    pager.get( timespan, page ),
@@ -19,15 +19,50 @@ class Twitd(webapp.RequestHandler):
 		}
 		self.response.out.write(template.render('templates/main.html', template_data))
 		
-class Search(webapp.RequestHandler):
+class Retweets(webapp.RequestHandler):
+	def get(self, tweet_id):
+		tweet = Tweet.get_by_key_name( "t%s" % tweet_id )
+		if tweet:
+			template_data = {
+				'tweet': tweet
+			}
+			self.response.out.write(template.render('templates/retweets.html', template_data))
+			
+class Comments(webapp.RequestHandler):
+	def get(self,tweet_id,title):
+		tweet = Tweet.get_by_key_name( "t%s" % tweet_id )
+		if tweet:
+			template_data = {
+			}
+			self.response.out.write(template.render('templates/main.html', template_data))
+		
+class UserRanking(webapp.RequestHandler):
 	def get(self):
-		self.response.out.write("Search")
+		template_data = {
+		}
+		self.response.out.write(template.render('templates/main.html', template_data))
+
+class UserTweets(webapp.RequestHandler):
+	def get(self, username):
+		user = TwitterUser.get_by_key_name( "u%s" % username.lower() )
+		tweets = Tweet.all().filter('user =', user).order('-retweet_count').fetch(25)
+		if user:
+			template_data = {
+				'tweets': tweets
+			}
+			self.response.out.write(template.render('templates/main.html', template_data))
+
+
+webapp.template.register_template_library('stringutils')
 
 application = webapp.WSGIApplication([
 										('/', Twitd),
-										('/(hours|day|week|fortnight)', Twitd),										
+										('/(hours|day|week|fortnight)', Twitd),
 									  	('/(hours|day|week|fortnight)/(\d+)', Twitd),
-										('/search', Search)
+										('/retweets/(\d+)', Retweets),
+										('/(\d+)/(.*)',Comments),
+										('/ranking', UserRanking),
+										('/user/(\w+)', UserTweets)
 									 ],
                                      debug=True)
 
