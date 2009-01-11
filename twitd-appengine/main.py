@@ -31,16 +31,21 @@ class Retweets(webapp.RequestHandler):
 class Comments(webapp.RequestHandler):
 	def get(self,tweet_id,title):
 		tweet = Tweet.get_by_key_name( "t%s" % tweet_id )
+		comments = tweet.retweet_set
 		if tweet:
 			template_data = {
+				'tweet': tweet,
+				'comments': comments
 			}
-			self.response.out.write(template.render('templates/main.html', template_data))
+			self.response.out.write(template.render('templates/comments.html', template_data))
 		
 class UserRanking(webapp.RequestHandler):
 	def get(self):
+		users = TwitterUser.all().order('-retweet_count').fetch(25)
 		template_data = {
+			'users': users
 		}
-		self.response.out.write(template.render('templates/main.html', template_data))
+		self.response.out.write(template.render('templates/ranking.html', template_data))
 
 class UserTweets(webapp.RequestHandler):
 	def get(self, username):
@@ -48,9 +53,10 @@ class UserTweets(webapp.RequestHandler):
 		tweets = Tweet.all().filter('user =', user).order('-retweet_count').fetch(25)
 		if user:
 			template_data = {
+				'user': user,
 				'tweets': tweets
 			}
-			self.response.out.write(template.render('templates/main.html', template_data))
+			self.response.out.write(template.render('templates/user.html', template_data))
 
 
 webapp.template.register_template_library('stringutils')

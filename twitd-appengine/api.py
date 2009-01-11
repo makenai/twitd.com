@@ -61,6 +61,11 @@ class AddToThread(webapp.RequestHandler):
 			tweet.retweet_count = tweet.retweet_set.count()
 			tweet.classify()
 			tweet.put()
+			if tweet.user.retweet_count is None:
+				tweet.user.retweet_count = 1
+			else:
+				tweet.user.retweet_count += 1
+			tweet.user.put()
 			self.response.out.write( simplejson.dumps( retweet.to_dict() ) )
 			
 class AddComment(webapp.RequestHandler):

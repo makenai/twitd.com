@@ -8,7 +8,7 @@ Twit'd:
 - Autolink URLs @done
 - Un-HTML-escape retweet links @done
 - Create /retweets method for AJAX @done
-- Pull in retweets via AJAX
+- Pull in retweets via AJAX @done
 - Comments - top pages only?
 - Take cache clearing offline @done
 - Comments for google users?

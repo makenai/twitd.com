@@ -24,6 +24,8 @@
   </div>
 </div>
 <div id="container">
+  {% block content %}
+  {% block options %}
   <div id="timespan">
   Retweets from the last..
   {% for timespan_option in timespans %}
@@ -34,6 +36,7 @@
   	{% endifequal %}
   {% endfor %}
   </div>
+  {% endblock %}
   {% for tweet in tweets %}
   <div class="thread" id="tweet-{{ tweet.id }}">
   	<div class="tweet">
@@ -46,7 +49,7 @@
 			<a href="#" class="toggle-list">Show/Hide</a>
   		<ul class="rt-list"><li class="default"></li></ul>
   		<p class="buttons">
-  		<!-- 0 comments | -->
+  		<a href="{{ tweet.comment_link }}">0 comments</a> |
   		<a href="http://twitter.com/home?in_reply_to_status_id={{tweet.id}}&status=%40{{tweet.from_user}}%20"  target="_blank">Reply</a> |
   		<a href="http://twitter.com/home?status={{ tweet.as_retweet }}">Retweet</a>
   		</p>
@@ -62,6 +65,7 @@
   		<a class="page older" href="/{{timespan}}/{{ next_page }}">Older Posts &gt;&gt;</a>
   	{% endif %}
   </div>
+  {% endblock %}
 </div>
 <div id="footer">
   <div id="footer-content">

@@ -1,7 +1,9 @@
 from google.appengine.ext import db
 from google.appengine.ext import search
+from django.template import defaultfilters
 from datetime import datetime, timedelta
 import stringutils
+import baseconvert
 import urllib
 
 # { "profile_link_color":"0000FF",
@@ -35,6 +37,7 @@ class TwitterUser(db.Model):
 	screen_name       = db.StringProperty(required=True)
 	profile_image_url = db.StringProperty(required=True)
 	updated_at        = db.DateTimeProperty(required=True)
+	retweet_count     = db.IntegerProperty(default=0)
 	
 	def recent_retweet_count( self, from_date ):
 		cutoff = from_date - timedelta(hours=5)
@@ -99,6 +102,7 @@ class Tweet(BaseTweet):
 	
 	created_date  = db.DateProperty(required=True)
 	retweet_count = db.IntegerProperty(default=0)
+	comment_count = db.IntegerProperty(default=0)
 	over2         = db.BooleanProperty(default=False)
 	over5         = db.BooleanProperty(default=False)
 	over10		    = db.BooleanProperty(default=False)
@@ -111,6 +115,13 @@ class Tweet(BaseTweet):
 	def as_retweet(self):
 		retweet = "RT @%s: %s" % ( self.from_user(), self.text )
 		return urllib.quote( stringutils.unescape_html( retweet.encode('utf-8') ) )
+		
+	def comment_link(self):
+		return "/%d/%s" % ( self.id, defaultfilters.slugify( stringutils.truncate( self.text, 40 ) ) )
+		
+	def short_link( self ):
+		# Can I subtract 1110000000 here?
+		return "http://twitd.com/%s" % baseconvert.tob62( self.id - 1110000000 )
 				
 class ReTweet(BaseTweet):
 	

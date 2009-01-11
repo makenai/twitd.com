@@ -28,3 +28,12 @@ register.filter( autolink_twitter )
 def unescape_html( str ):
 	return str.replace('&amp;','&').replace('&lt;','<').replace('&gt;','>'). \
 		replace('&quot;','"').replace('&#39;',"'")
+		
+def truncate(s, width):
+	if len(s) < width:
+		return s
+	if s[width].isspace():
+		return s[0:width]
+	else:
+		return s[0:width].rsplit(None, 1)[0]
+		
