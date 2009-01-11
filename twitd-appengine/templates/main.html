@@ -8,14 +8,9 @@
 	<link rel="stylesheet" href="/css/main.css" type="text/css" media="screen" title="no title" charset="utf-8">
 	<script type="text/javascript" src="/js/jquery-1.2.6.min.js"></script>
 	<script type="text/javascript" src='/js/behavior.js'></script>
-	<script type="text/javascript">
-		var Twitd = {
-			toggle_retweets: function( id ) {
-				$('#tweet-' + id).toggleClass('retweets-shown');
-				return false;
-			}
-		};
-	</script>	
+	{% if rss_link %}
+	<link rel="alternate" type="application/rss+xml" title="RSS" href="{{ rss_link }}" />
+	{% endif %}
 </head>
 <body>
 <div id="header">
@@ -49,7 +44,7 @@
 			<a href="#" class="toggle-list">Show/Hide</a>
   		<ul class="rt-list"><li class="default"></li></ul>
   		<p class="buttons">
-  		<a href="{{ tweet.comment_link }}">0 comments</a> |
+  		<!-- <a href="{{ tweet.comment_link }}">0 comments</a> | -->
   		<a href="http://twitter.com/home?in_reply_to_status_id={{tweet.id}}&status=%40{{tweet.from_user}}%20"  target="_blank">Reply</a> |
   		<a href="http://twitter.com/home?status={{ tweet.as_retweet }}">Retweet</a>
   		</p>

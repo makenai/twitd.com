@@ -11,6 +11,8 @@ handlers:
 - url: /js
   static_dir: js
 - url: /api/.*
-  script: api.py    
+  script: api.py 
+- url: /rss/.*
+  script: rss.py     
 - url: .*
   script: main.py
