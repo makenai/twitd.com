@@ -1,9 +1,5 @@
 $(document).ready(function(){
 	$('ul.rt-list').hide();
-	$('a.toggle-list').click(function () {
-		$(this).next('ul.rt-list').toggle('fast');
-		return false;
-	});
 	$('a.counter-toggle').click(function () {
 		var rt_list = $(this).nextAll('ul.rt-list');
 		if ( rt_list.children('li').hasClass('default') ) {

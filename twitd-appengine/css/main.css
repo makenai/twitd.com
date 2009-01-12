@@ -107,8 +107,8 @@ div.retweets-shown .show-retweets { display: none; }
 	width:581px;
 	margin:5px 10px 0 0;
 }
-.toggle-list {
-	background:url("/img/expand.gif") no-repeat left top;
+.handle {
+	background:url("/img/expand.gif") no-repeat right top;
 	text-indent:-9999px;
 	overflow:hidden;
 	width:20px;
@@ -117,8 +117,8 @@ div.retweets-shown .show-retweets { display: none; }
 	left:0;
 	bottom:0;
 }
-.toggle-list:hover {
-	background-position:right top;
+.handle:hover {
+	background-position:left top;
 }
 .rt-list {
 	list-style:none;

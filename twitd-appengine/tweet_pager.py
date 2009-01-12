@@ -23,10 +23,10 @@ class TweetPager:
 	def recache( self, timespan ):
 		cutoff_date = datetime.now() - self.TIMESPANS[ timespan ]
 		tweet_query = Tweet.all()
-		if self.TIMESPANS[ timespan ] > self.TIMESPANS['day']:
-			tweet_query.filter( 'over5 =', True ) # Only over5 tweets for anything more than a day
-		else:
-			tweet_query.filter( 'over2 =', True ) # More than 2 to be listed
+		# if self.TIMESPANS[ timespan ] > self.TIMESPANS['day']:
+			# tweet_query.filter( 'over5 =', True ) # Only over5 tweets for anything more than a day
+		# else:
+			# tweet_query.filter( 'over2 =', True ) # More than 2 to be listed
 		tweet_query.filter( 'created_at >', cutoff_date )
 		tweets = tweet_query.fetch(800)
 		tweets.sort( TweetPager.rank_sort )
