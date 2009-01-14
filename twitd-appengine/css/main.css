@@ -187,3 +187,47 @@ div.retweets-shown .show-retweets { display: none; }
 	right:0;
 	top:30px;
 }
+#user-profile {
+	position:relative;
+	background:#848D99;
+	-moz-border-radius-topleft:8px;
+	-moz-border-radius-topright:8px;
+	-webkit-border-top-left-radius:8px;
+	-webkit-border-top-right-radius:8px;
+	margin:0 0 10px 0;
+	height:90px;
+}
+.profile-img {
+	position:absolute;
+	right:10px;
+	top:10px;
+	width:48px;
+	height:48px;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+}
+#profile-name {
+	padding:10px 0 0 10px;
+	font-family:Georgia, serif;
+	font-style:oblique;
+}
+#profile-name span {
+	font-variant:small-caps;
+	font-weight: normal;
+}
+#user-profile p {
+	margin:10px 0 10px 10px;
+}
+.profile-button {
+	padding:5px 10px;
+	margin:0 5px 0 0;
+	background:#687079;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+	color:#fff;
+	text-decoration:none;
+	text-shadow: black 1px 1px 1px;
+}
+.profile-button:hover {
+	background:#A4B2C0;
+}
