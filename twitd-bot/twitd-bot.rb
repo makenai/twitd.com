@@ -28,8 +28,8 @@ if __FILE__ == $0
       puts "Starting at #{since_id}"
     end
   
-    tweets = since_id ? Twitter.search( 'RT', :since_id => since_id ) : 
-                        Twitter.search( 'RT', :max_pages => 2 )
+    tweets = since_id ? Twitter.search( 'rt OR r/t OR retweeting', :since_id => since_id ) : 
+                        Twitter.search( 'rt OR r/t OR retweeting', :max_pages => 2 )
     max_id = 0
     tweets.each do |tweet|
 
@@ -37,7 +37,7 @@ if __FILE__ == $0
         max_id = tweet['id']
       end
 
-      next unless matches = tweet['text'].match(/\brt\s+@(\w+):?\s+(.*)/i)
+      next unless matches = tweet['text'].match(/\b(?:r\/?t|retweeting)\s+@(\w+):?\s+(.*)/i)
       user, text = matches[1], matches[2]
       next unless Twitter.user_exists?( user )
         
