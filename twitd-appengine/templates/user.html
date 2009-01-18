@@ -3,9 +3,9 @@
 {% block options %}
   <div id="user-profile">
     <a class="profile-img" style="background:url('{{ user.profile_image_url }}');" href="http://www.twitter.com/{{ user.screen_name }}"></a>
-    <h2 id="profile-name">{{ user.screen_name }} <span>with #### tweets</span></h2>
+    <h2 id="profile-name">{{ user.screen_name }} <span>has #### tweets</span></h2>
     <p>
-      <a href="" class="profile-button">Followers(####)</a><a href="" class="profile-button">Follows(####)</a><a href="" class="profile-button">Followers(####)</a>
+      <a href="http://www.twitter.com/{{ user.screen_name }}/followers" class="profile-button">Followers(####)</a><a href="http://www.twitter.com/{{ user.screen_name }}/friends" class="profile-button">Follows(####)</a><a href="http://www.twitter.com/{{ user.screen_name }}" class="profile-button">Profile</a>
     </p>  
   </div>
 {% endblock %}

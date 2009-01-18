@@ -37,7 +37,7 @@ body {background:#cce29d url("/img/body-bg.gif") repeat-x left top;}
 }
 div.thread {
 	font-size:.9em;
-	background:#fff;
+	background:#EAF2E3 url("/img/thread-repeat.gif") repeat-x left bottom;
 	margin:0 0 10px;
 	position:relative;
 	width:640px;
@@ -108,14 +108,19 @@ div.retweets-shown .show-retweets { display: none; }
 	margin:5px 10px 0 0;
 }
 .toggle-list {
-	background:url("/img/expand.gif") no-repeat left top;
-	text-indent:-9999px;
+	background:#C2D957;
+	text-align:center;
+	text-decoration:none;
+	font-size:.8em;
+	color:#fff;
+	-moz-border-radius:3px;
+	-webkit-border-radius:3px;
 	overflow:hidden;
-	width:20px;
-	height:20px;
+	padding:3px 0 2px;
+	width:40px;
 	position:absolute;
-	left:0;
-	bottom:0;
+	left:4px;
+	bottom:3px;
 }
 .toggle-list:hover {
 	background-position:right top;
@@ -127,7 +132,7 @@ div.retweets-shown .show-retweets { display: none; }
 	-moz-border-radius:5px;
 	-webkit-border-radius:5px;
 	margin:5px 5px 0 0;
-	background:#eee;
+	background:#fff;
 }
 .rt-list li p {
 	padding:5px 10px;
@@ -212,7 +217,6 @@ div.retweets-shown .show-retweets { display: none; }
 	font-style:oblique;
 }
 #profile-name span {
-	font-variant:small-caps;
 	font-weight: normal;
 }
 #user-profile p {
