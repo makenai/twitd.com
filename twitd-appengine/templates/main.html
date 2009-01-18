@@ -36,12 +36,12 @@
   <div class="thread" id="tweet-{{ tweet.id }}">
   	<div class="tweet">
   		<div class="tweet-meta">
-  		  <a href="http://www.twitter.com/{{ tweet.from_user }}" class="avatar-link"><img src="{{ tweet.profile_image_url }}" width="48" height="48" /></a>
+  		  <a href="/user/{{ tweet.from_user }}" class="avatar-link"><img src="{{ tweet.profile_image_url }}" width="48" height="48" /></a>
   		  <p>{{ tweet.text|autolink|autolink_twitter }}</p>
-    		<p><a href="http://www.twitter.com/{{ tweet.from_user }}">{{ tweet.from_user }}</a> on <em><a href="http://twitter.com/{{ tweet.from_user }}/status/{{ tweet.id }}">{{ tweet.created_at }}</a></em></p>
+    		<p><a href="/user/{{ tweet.from_user }}">{{ tweet.from_user }}</a> on <em><a href="http://twitter.com/{{ tweet.from_user }}/status/{{ tweet.id }}">{{ tweet.created_at }}</a></em></p>
   		</div>
   		<a href="#" class="counter-toggle show"><span>{{ tweet.retweet_count }}</span> retweets</a>
-			<a href="#" class="counter-toggle handle">Show/Hide</a>
+			<a href="#" class="toggle-list">show</a>
   		<ul class="rt-list"><li class="default"></li></ul>
   		<p class="buttons">
   		<!-- <a href="{{ tweet.comment_link }}">0 comments</a> | -->
